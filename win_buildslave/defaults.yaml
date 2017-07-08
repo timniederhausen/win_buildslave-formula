@@ -1,0 +1,12 @@
+win_buildslave:
+  packages: []
+    # broken for now
+    #- chocolatey
+    # not added to path:
+    #- 7zip
+  choco_packages:
+    - carbon # used to grant privileges http://get-carbon.org/
+    - pstools
+    - 7zip.portable # used for silent pywin32 install
+  user: buildslave
+  root_directory: 'C:\\b'

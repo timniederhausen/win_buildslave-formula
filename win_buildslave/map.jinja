@@ -1,0 +1,9 @@
+{% import_yaml 'win_buildslave/defaults.yaml' as defaults %}
+
+{# merge the pillar:lookup dict into the defaults/os specific dict #}
+{% set lookup = salt['pillar.get']('win_buildslave:lookup',
+                                   default=defaults.win_buildslave,
+                                   merge=True) %}
+
+{# merge the actual win_buildslave pillar into the above combined dict #}
+{% set win_buildslave = salt['pillar.get']('win_buildslave', default=lookup, merge=True) %}
