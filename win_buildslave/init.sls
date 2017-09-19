@@ -43,18 +43,18 @@ wbs_root:
     - makedirs: true
 
 {% set roots = [] %}
-{% for slave in win_buildslave.slaves %}
-{% set root = slave.get('root', win_buildslave.root_directory + '/' + slave.user + '/' + slave.name) %}
+{% for name, slave in win_buildslave.slaves.items() %}
+{% set root = slave.get('root', win_buildslave.root_directory + '/' + slave.user + '/' + name) %}
 {% do roots.append(root) %}
-buildslave_{{ slave.name }}_root:
+buildslave_{{ name }}_root:
   file.directory:
     - name: {{ root }}
     - user: {{ win_buildslave.user }}
     - makedirs: true
 
-buildslave_{{ slave.name }}_create:
+buildslave_{{ name }}_create:
   cmd.run:
-    - name: 'cd C:\ && buildslave create-slave {{ root }} {{ slave.master }} {{ slave.name }} {{ slave.password }}'
+    - name: 'cd C:\ && buildslave create-slave {{ root }} {{ slave.master }} {{ slave.name | default(name) }} {{ slave.password }}'
 #    - cwd: {{ root | yaml_encode }}
     - runas: {{ win_buildslave.user }}
     - password: {{ win_buildslave.user_password }}

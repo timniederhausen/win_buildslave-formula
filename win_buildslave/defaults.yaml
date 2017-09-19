@@ -10,3 +10,4 @@ win_buildslave:
     - 7zip.portable # used for silent pywin32 install
   user: buildslave
   root_directory: 'C:\\b'
+  slaves: {}
