@@ -1,4 +1,5 @@
 {% from 'win_buildslave/map.jinja' import win_buildslave with context %}
+{% from 'win_buildslave/macros.jinja' import sls_block with context %}
 
 {% for pkg in win_buildslave.packages %}
 wbs_pkg_{{ pkg }}:
@@ -59,6 +60,18 @@ buildslave_{{ name }}_create:
     - runas: {{ win_buildslave.user }}
     - password: {{ win_buildslave.user_password }}
     - creates: '{{ root }}/buildbot.tac'
+
+buildslave_{{ name }}_admin:
+  file.managed:
+    - name: {{ root }}/info/admin
+    - user: {{ slave.user }}
+    {{ sls_block(slave.admin) | indent(4) }}
+
+buildslave_{{ name }}_host:
+  file.managed:
+    - name: {{ root }}/info/host
+    - user: {{ slave.user }}
+    {{ sls_block(slave.host) | indent(4) }}
 {% endfor %}
 
 wbs_service_key:
