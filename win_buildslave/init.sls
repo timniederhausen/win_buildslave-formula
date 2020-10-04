@@ -35,7 +35,7 @@ wbs_user_setup:
 # NOTE: no virtualenv support
 wbs_pip_buildslave:
   pip.installed:
-    - name: buildbot-slave
+    - name: buildbot-worker
 
 wbs_root:
   file.directory:
@@ -55,7 +55,7 @@ buildslave_{{ name }}_root:
 
 buildslave_{{ name }}_create:
   cmd.run:
-    - name: 'cd C:\ && buildslave create-slave {{ root }} {{ slave.master }} {{ slave.name | default(name) }} {{ slave.password }}'
+    - name: 'cd C:\ && buildbot-worker create-worker {{ root }} {{ slave.master }} {{ slave.name | default(name) }} {{ slave.password }}'
 #    - cwd: {{ root | yaml_encode }}
     - runas: {{ win_buildslave.user }}
     - password: {{ win_buildslave.user_password }}

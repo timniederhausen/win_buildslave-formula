@@ -5,7 +5,7 @@ function Which([string]$cmd) {
 $localPython = Which "python.exe"
 if ("$localPython" -eq "") {
     Write-Output "Default Python"
-    $localPython = "C:\Python27\python.exe"
+    $localPython = "C:\Program Files\Python37\python.exe"
 }
 
 if (!(Test-Path $localPython)) {
@@ -16,5 +16,5 @@ if (!(Test-Path $localPython)) {
 $pyHome = Split-Path $localPython -Parent
 $scriptsPath = Join-Path $pyHome "Scripts"
 
-&$localPython "$scriptsPath\buildbot_service.py" "--startup" "auto" "--user" ".\$($args[0])" "--password" "$($args[1])" "install"
+&"$scriptsPath\buildbot_worker_windows_service.exe" "--startup" "auto" "--user" ".\$($args[0])" "--password" "$($args[1])" "install"
 exit $LASTEXITCODE
